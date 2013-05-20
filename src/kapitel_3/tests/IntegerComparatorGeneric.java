@@ -5,8 +5,8 @@ import kapitel_3.work.generics.IKey;
 
 public class IntegerComparatorGeneric implements IComparator<Integer> {
     public int compare(Integer data1, Integer data2) {
-        int int1 = (Integer) data1;
-        int int2 = (Integer) data2;
+        int int1 = data1;
+        int int2 = data2;
         
         if (int1 < int2) {
             return -1;
@@ -18,9 +18,11 @@ public class IntegerComparatorGeneric implements IComparator<Integer> {
     }
 
     public int compare(Integer data, IKey<Integer> key) {
-        int int1 = (Integer) data;
-        int int2 = (Integer) ((IntegerKeyGeneric) key).data;
+        Integer int1 = data;
+        Integer int2 = ((IntegerKeyGeneric) key).data;
         
+        return compare(int1, int2);
+/*
         if (int1 < int2) {
             return -1;
         } else if (int1 == int2) {
@@ -28,5 +30,6 @@ public class IntegerComparatorGeneric implements IComparator<Integer> {
         } else { 
             return 1;
         }
+*/
     }
 }

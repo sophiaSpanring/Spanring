@@ -66,7 +66,7 @@ public class BTree {
 		Queue queue = new Queue();			       // The helper-queue
 		
 		if (root != null) {
-			queue.enqueue(root);					   // Enqueue the root of the tree
+			queue.enqueue(root);				   // Enqueue the root of the tree
 		}
 		while (!queue.empty()) {                   // Iterate as long as queue is not empty
 			Node current = (Node) queue.dequeue(); // Fetch a node from the queue
@@ -146,7 +146,7 @@ public class BTree {
 		}  										   // Proceed while the queue is not
 		while (!queue.empty() && data == null) {   // empty and the data set was not found
 			Node current = (Node) queue.dequeue(); // Fetch a node from the queue
-			if (key.matches(current.data)) {        // Is this the node of the requested
+			if (key.matches(current.data)) {       // Is this the node of the requested
 				data = current.data;               // data set? Yes - store its reference
 			} else {                               // No - enqueue the left and right
 				if (current.left != null) {        // child-nodes, but only if they exist 

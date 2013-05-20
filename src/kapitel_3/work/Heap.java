@@ -137,7 +137,8 @@ public abstract class Heap extends Tree {
 	}
 	
 	public boolean remove(Object data) {
-		Node toRemove = heapSearch(root, data);
+	    ReferenceKey referenceKey = new ReferenceKey(data);
+		Node toRemove = heapSearch(root, referenceKey);
 		
 		remove(toRemove);
 		
@@ -169,25 +170,6 @@ public abstract class Heap extends Tree {
 					}
 					break;
 				case +1:
-					break;
-			}
-		}
-		return found;
-	}
-	
-	protected Node heapSearch(Node currentRoot, Object data) {
-		Node found = null;
-		
-		if (currentRoot != null) {
-			switch(cs * comparator.compare(currentRoot.data, data)) {
-				case 0:
-					found = currentRoot;
-					break;
-				case -1:
-					found = heapSearch(currentRoot.left, data);
-					if (found == null) {
-						found = heapSearch(currentRoot.right, data);
-					}
 					break;
 			}
 		}

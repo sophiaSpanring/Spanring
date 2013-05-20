@@ -178,40 +178,41 @@ public class AVLTree extends SearchTree {         // An AVLTree is a SearchTree
 			removeLeaf(toRemove);
 		}
 	}
-	
-	protected static boolean isAVLTree(Node node) { // Check if the tree is a valid
-		boolean answer = true;                      // AVL-Tree, e.g. the balances of
-		                                            // the nodes reflects the real
-		if (node != null) {                         // hight of its sub-trees
-			if (height(node.right) - height(node.left) != node.balance) {
-				answer= false;
-			} else {
-				answer = isAVLTree((Node) node.right) 
-						&& isAVLTree((Node) node.left);
-			}
-		}
-		return answer;
-	}
-	
-	public boolean isAVLTree() {
-		return isAVLTree((Node) root);
-	}
-	
-	protected static boolean isAVLBalanced(Node node) { // Check if the tree is
-		boolean answer = true;                          // correctly balanced to be a
-		                                                // valid the AVL-requirement
-		if (node != null) {
-			if (node.balance < -1 || node.balance > 1) {
-				answer = false;
-			} else {
-				answer = isAVLBalanced((Node) node.right) 
-						&& isAVLBalanced((Node) node.left); 
-			}
-		}
-		return answer;
-	}
-	
-	public boolean isAVLBalanced() {
-		return isAVLBalanced((Node) root);
-	}
+
+    
+    protected static boolean isBalanceValid(Node node) { // Check if the tree is a valid
+        boolean answer = true;                      // AVL-Tree, e.g. the balances of
+                                                    // the nodes reflects the real
+        if (node != null) {                         // hight of its sub-trees
+            if (height(node.right) - height(node.left) != node.balance) {
+                answer= false;
+            } else {
+                answer = isBalanceValid((Node) node.right) 
+                        && isBalanceValid((Node) node.left);
+            }
+        }
+        return answer;
+    }
+    
+    public boolean areBalancesValid() {
+        return isBalanceValid((Node) root);
+    }
+    
+    protected static <T> boolean isAVLTree(Node node) { // Check if the tree is
+        boolean answer = true;                          // correctly balanced to be a
+                                                        // valid the AVL-requirement
+        if (node != null) {
+            if (node.balance < -1 || node.balance > 1) {
+                answer = false;
+            } else {
+                answer = isAVLTree((Node) node.right) 
+                        && isAVLTree((Node) node.left); 
+            }
+        }
+        return answer;
+    }
+    
+    public boolean isAVLTree() {
+        return isAVLTree((Node) root);
+    }
 }

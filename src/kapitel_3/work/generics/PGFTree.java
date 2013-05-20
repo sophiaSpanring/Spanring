@@ -6,7 +6,7 @@ public class PGFTree<T> {
     private static final String tikzHeader = "% copy verbatim into a fragile frame\n"
             + "% or \\input this code as pgf-file\n"
             + "\\begin{tikzpicture}";
-    private static final String tikzFooter = "\\end{tikzpicture}";
+    private static final String tikzFooter = "\\end{tikzpicture}%";
     private static final String pgfStyles = "    \\tikzset{\n"
             + "        every node/.style={\n" 
             + "            inner sep=0,\n"
@@ -14,8 +14,6 @@ public class PGFTree<T> {
             + "            minimum width=12pt,\n"
             + "            minimum height=12pt,\n"
             + "            draw,\n"
-            + "            top color=white,\n"
-            + "            bottom color=yellow!20,\n"
             + "            font=\\scriptsize,\n" 
             + "            circle\n"
             + "        },\n" 
@@ -54,7 +52,7 @@ public class PGFTree<T> {
             + "    }";
  
     private String defaultSubTreeFormat = "";
-    private String defaultNodeFormat = "";
+    private String defaultNodeFormat = "normal node";
     private String defaultChildrenFormat = "";
     private String defaultChildFormat = "";
     private String defaultEdgeFromParentFormat = "";
@@ -216,7 +214,35 @@ public class PGFTree<T> {
     }
     
     public PGFTree(Tree<PGFProxy> tree) {
+        if (!(tree instanceof IPGFTree<?>)) {
+            throw new IllegalArgumentException("Tree passed does not implement IPGFTree");
+        }
         this.tree = tree;
+    }
+    
+    @SuppressWarnings("unchecked")
+    String getSubTreeFormat(Tree.Node<PGFProxy> node) {
+        return ((IPGFTree<PGFProxy>) tree).getSubTreeFormatFormat(node);
+    }
+    
+    @SuppressWarnings("unchecked")
+    String getNodeFormat(Tree.Node<PGFProxy> node) {
+        return ((IPGFTree<PGFProxy>) tree).getNodeFormat(node);
+    }
+    
+    @SuppressWarnings("unchecked")
+    String getChildrenFormat(Tree.Node<PGFProxy> node) {
+        return ((IPGFTree<PGFProxy>) tree).getChildrenFormat(node);
+    }
+    
+    @SuppressWarnings("unchecked")
+    String getChildFormat(Tree.Node<PGFProxy> node) {
+        return ((IPGFTree<PGFProxy>) tree).getChildFormat(node);
+    }
+    
+    @SuppressWarnings("unchecked")
+    String getEdgeFromParentFormat(Tree.Node<PGFProxy> node) {
+        return ((IPGFTree<PGFProxy>) tree).getEdgeFromParentFormat(node);
     }
     
     protected String treeToPGF(Tree.Node<PGFProxy> currentRoot, String tabs) {
@@ -224,11 +250,20 @@ public class PGFTree<T> {
         
         if (currentRoot != null) {
             PGFProxy proxy = currentRoot.data;
-            String subTreeFormat = proxy.subTreeFormat();
-            String nodeFormat = proxy.nodeFormat();
-            String childrenFormat = proxy.childrenFormat();
-            String childFormat = proxy.childFormat();
-            String edgeFromParentFormat = proxy.edgeFromParentFormat();
+            String subTreeFormat = "[" + proxy.subTreeFormat() + ", " + getSubTreeFormat(currentRoot) + "]";
+            subTreeFormat = !subTreeFormat.equals("[, ]") ? subTreeFormat : "";
+            
+            String nodeFormat = "[" + proxy.nodeFormat() + ", " + getNodeFormat(currentRoot) + "]";
+            nodeFormat = !nodeFormat.equals("[, ]") ? nodeFormat : "";
+            
+            String childrenFormat = "[" + proxy.childrenFormat() + ", " + getChildrenFormat(currentRoot) + "]";
+            childrenFormat = !childrenFormat.equals("[, ]") ? childrenFormat : "";
+            
+            String childFormat = "[" + proxy.childFormat() + ", " + getChildFormat(currentRoot) + "]";
+            childFormat = !childFormat.equals("[, ]") ? childFormat : "";
+            
+            String edgeFromParentFormat = "[" + proxy.edgeFromParentFormat() + ", " + getEdgeFromParentFormat(currentRoot) + "]";
+            edgeFromParentFormat = !edgeFromParentFormat.equals("[, ]") ? edgeFromParentFormat : "";
             
             String pgfLeftSubTree = treeToPGF(currentRoot.left, tabs + "    ");
             String pgfRightSubTree = treeToPGF(currentRoot.right, tabs + "    ");

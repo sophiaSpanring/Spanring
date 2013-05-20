@@ -62,26 +62,6 @@ public class SearchTree extends Tree {
 	    return binarySearch(key);
 	}
 	
-	protected Node binarySearch(Node current, Object data) { // Binary search
-		Node found = null;
-		
-		if (current != null) { // If the sub-tree is not empty
-			if (comparator.compare(current.data, data) == 0) { // Look at the root. Does it
-				found = current;                       // contain the requested data set?
-			} else {                                   // No? Try to find it in an sub-tree
-				switch (comparator.compare(current.data, data)) { // Where to search?
-				case 1:                                           // Search on the left
-					found = binarySearch(current.left, data);     // Search to the left
-					break;
-				case 0: case -1:                                  // Search on the right
-					found = binarySearch(current.right, data);    // Search to the right
-					break;
-				}
-			}
-		}
-		return found; // Return either null or the reference to the requested data set
-	}
-	
 	protected static Node searchSmallest(Node node) { // Look for the smallest data set
 		if (node != null) {                    // starting at the given node
 			while(node.left != null) {         // Iterate to the leftmost node
@@ -126,11 +106,12 @@ public class SearchTree extends Tree {
 		
 		return toRemove != null;
 	}
-	
-	public boolean remove(Object data) {          // Remove a data set
-		Node toRemove = binarySearch(root, data); // Search for the controlling node
-		remove(toRemove);                         // Remove the controlling node
-		
-		return toRemove != null;
-	}
+
+    public boolean remove(Object data) {
+        ReferenceKey refKey = new ReferenceKey(data);
+        Node toRemove = binarySearch(root, refKey);
+        remove(toRemove);
+        
+        return toRemove != null;
+    }
 }

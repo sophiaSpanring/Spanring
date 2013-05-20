@@ -39,6 +39,19 @@ public class Tree {
 		    return left == null && right != null || left != null && right == null;
 		}
 	}
+    
+    protected class ReferenceKey implements IKey {
+        Object data = null;
+        
+        public ReferenceKey(Object data) {
+            this.data = data;
+        }
+        
+        public boolean matches(Object data) {
+            return this.data == data;
+        }
+        
+    }
 	
 	private static void depthFirstPreOrder(Node current, IWorker worker) { // Traverse
 		if (current != null) {						   // the tree pre-order depth-first

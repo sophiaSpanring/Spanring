@@ -106,7 +106,7 @@ public class AVLTree<T> extends SearchTree<T> {
         return newCurrentRoot; // Deliver the new current root
     }
     
-    private Node<T> balance(Node<T> currentRoot) { // If necessary try to balance the
+    protected Node<T> balance(Node<T> currentRoot) { // If necessary try to balance the
         Node<T> newCurrentRoot = null;          // tree
         
         switch(currentRoot.balance) { // The balance of the current root
@@ -177,15 +177,33 @@ public class AVLTree<T> extends SearchTree<T> {
         }
     }
     
-    protected static <T> boolean isAVLTree(Node<T> node) { // Check if the tree is a valid
+    protected static <T> boolean isBalanceValid(Node<T> node) { // Check if the tree is a valid
         boolean answer = true;                      // AVL-Tree, e.g. the balances of
                                                     // the nodes reflects the real
         if (node != null) {                         // hight of its sub-trees
             if (height(node.right) - height(node.left) != node.balance) {
                 answer= false;
             } else {
+                answer = isBalanceValid((Node<T>) node.right) 
+                        && isBalanceValid((Node<T>) node.left);
+            }
+        }
+        return answer;
+    }
+    
+    public boolean areBalancesValid() {
+        return isBalanceValid((Node<T>) root);
+    }
+    
+    protected static <T> boolean isAVLTree(Node<T> node) { // Check if the tree is
+        boolean answer = true;                          // correctly balanced to be a
+                                                        // valid the AVL-requirement
+        if (node != null) {
+            if (node.balance < -1 || node.balance > 1) {
+                answer = false;
+            } else {
                 answer = isAVLTree((Node<T>) node.right) 
-                        && isAVLTree((Node<T>) node.left);
+                        && isAVLTree((Node<T>) node.left); 
             }
         }
         return answer;
@@ -193,23 +211,5 @@ public class AVLTree<T> extends SearchTree<T> {
     
     public boolean isAVLTree() {
         return isAVLTree((Node<T>) root);
-    }
-    
-    protected static <T> boolean isAVLBalanced(Node<T> node) { // Check if the tree is
-        boolean answer = true;                          // correctly balanced to be a
-                                                        // valid the AVL-requirement
-        if (node != null) {
-            if (node.balance < -1 || node.balance > 1) {
-                answer = false;
-            } else {
-                answer = isAVLBalanced((Node<T>) node.right) 
-                        && isAVLBalanced((Node<T>) node.left); 
-            }
-        }
-        return answer;
-    }
-    
-    public boolean isAVLBalanced() {
-        return isAVLBalanced((Node<T>) root);
     }
 }

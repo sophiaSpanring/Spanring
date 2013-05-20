@@ -1,5 +1,7 @@
 package kapitel_3.tests;
 
+import java.util.Random;
+
 import kapitel_3.work.experiments.ExperimentalAVLTree;
 import kapitel_3.work.generics.PGFTree;
 import kapitel_3.work.generics.IComparator;
@@ -7,6 +9,8 @@ import kapitel_3.work.generics.IKey;
 
 public class TestGenericAVLTree {
 	public static void main(String[] args) {
+	    Random rand = new Random();
+	    
         IComparator<PGFTree<Integer>.PGFProxy> pgfComparator = PGFTree.comparator(new IntegerComparatorGeneric());
 		
 		ExperimentalAVLTree<PGFTree<Integer>.PGFProxy> avlTree = new ExperimentalAVLTree<PGFTree<Integer>.PGFProxy>(pgfComparator);
@@ -19,15 +23,21 @@ public class TestGenericAVLTree {
         
         System.out.println(pgfTree.header());
 		for (int i = 0; i < MAX; i++) {
+		    int n = 0;
+		    do {
+		        n = rand.nextInt(100);
+		        integerKey.setKeyValue(n);
+		    } while (avlTree.search(key) != null);
+		    
 		    System.out.println("\\visible<" + (2 * i + 1) + "> {");
 		    
-		    avlTree.insert(pgfTree.pgfProxy(i));
+		    avlTree.insert(pgfTree.pgfProxy(n));
 		    
-		    integerKey.setKeyValue(i);
-	        PGFTree<Integer>.PGFProxy proxy = avlTree.binarySearch(key);
+		    integerKey.setKeyValue(n);
+	        PGFTree<Integer>.PGFProxy proxy = avlTree.search(key);
 	        
-	        PGFTree.setNodeFormat(proxy, "[inserted node]");
-	        PGFTree.setChildFormat(proxy, "[draw=red]");
+	        PGFTree.setNodeFormat(proxy, "inserted node");
+	        PGFTree.setChildFormat(proxy, "draw=red");
 	        
 	        System.out.println(pgfTree.tree());
 	        
@@ -41,7 +51,7 @@ public class TestGenericAVLTree {
 		    
             System.out.println("}");
 		    
-            PGFTree.setNodeFormat(proxy, "");
+            PGFTree.setNodeFormat(proxy, "normal node");
             PGFTree.setChildFormat(proxy, "");
 		}
         System.out.println(pgfTree.footer());

@@ -36,6 +36,19 @@ public class Tree<T> {
         }
     }
     
+    protected class ReferenceKey implements IKey<T> {
+        T data = null;
+        
+        public ReferenceKey(T data) {
+            this.data = data;
+        }
+        
+        public boolean matches(T data) {
+            return this.data == data;
+        }
+        
+    }
+    
     private static <T> void depthFirstPreOrder(Node<T> current, IWorker<T> worker) { // Traverse
         if (current != null) {                         // the tree pre-order depth-first
             worker.work(current.data);                 // Process the data set
@@ -148,7 +161,7 @@ public class Tree<T> {
     }
     
     public T search(IKey<T> key) {
-        return depthFirstPreOrderSearch(key);
+        return depthFirstPreOrderSearch(root, key);
     }
     
     public T breadthFirstSearch(IKey<T> key) {   // Search for a data set based on the
@@ -175,7 +188,7 @@ public class Tree<T> {
     }
     
     protected void removeLeaf(Node<T> toRemove) { // Remove a leaf or a half-leave from
-        if (toRemove.isLeftChild()) {          // the tree.
+        if (toRemove.isLeftChild()) {             // the tree.
             toRemove.parent.left = null;
             if (toRemove.right != null) {
                 toRemove.parent.left = toRemove.right;

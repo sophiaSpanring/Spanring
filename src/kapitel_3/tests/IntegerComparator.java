@@ -18,15 +18,9 @@ public class IntegerComparator implements IComparator {
     }
 
     public int compare(Object data, IKey key) {
-        int int1 = (Integer) data;
-        int int2 = (Integer) ((IntegerKey) key).data;
+        Object int1 = data;
+        Object int2 = ((IntegerKey) key).data;
         
-        if (int1 < int2) {
-            return -1;
-        } else if (int1 == int2) {
-            return 0;
-        } else { 
-            return 1;
-        }
+        return compare(int1, int2);
     }
 }
