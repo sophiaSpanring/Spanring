@@ -2,10 +2,10 @@ package uebung_3.ue;
 
 import kapitel_3.vl.IFIterator;
 //import kapitel_3.vl.SList;
-import uebung_2.ue.UE1SList;
+import uebung_2.ue.MySList;
 
 public class Stack {
-	private UE1SList list = new UE1SList();
+	private MySList list = new MySList();
 	private int size = 0;
 	
 	public void push(Object data) {
