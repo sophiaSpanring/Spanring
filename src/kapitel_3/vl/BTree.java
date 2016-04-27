@@ -149,7 +149,7 @@ public class BTree {
 				toRemove.right.parent = toRemove.parent;
 			}
 		} else {
-			root = null;
+			root = toRemove.left != null ? toRemove.left : toRemove.right;
 		}
 	}
 
