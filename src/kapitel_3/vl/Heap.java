@@ -83,7 +83,7 @@ public abstract class Heap extends BTree {
         return node;
     }
     
-    private Node findLastButOne() {
+    private Node findLastButOneNode() {
         Node lastButOne = null;
         
         if (lastNode.isRightChild()) {
@@ -106,9 +106,9 @@ public abstract class Heap extends BTree {
     
     protected void remove(Node toRemove) {
         if (toRemove != null) {
-            Node lastButOne = findLastButOne();
+            Node lastButOneNode = findLastButOneNode();
             
-            if (lastButOne != null) {
+            if (lastButOneNode != null) {
                 Object data = toRemove.data;
                 toRemove.data = lastNode.data;
                 if (cs * comparator.compare(data, toRemove.data) == +1) {
@@ -119,7 +119,7 @@ public abstract class Heap extends BTree {
             }
             removeLeaf(lastNode);
             
-            lastNode = lastButOne;
+            lastNode = lastButOneNode;
         }
     }
     

@@ -134,9 +134,9 @@ public class HashTable {
         long hash = sdbm(key);
         Bucket bucket = buckets[(int) (hash & (size -1 ))];
         
-        TupleKey k = new TupleKey(key);
+        TupleKey tupleKey = new TupleKey(key);
         
-        Tuple entry = (Tuple) bucket.list.search(k);
+        Tuple entry = (Tuple) bucket.list.search(tupleKey);
         
         Object ret = null;
         if (entry != null) {
@@ -149,8 +149,8 @@ public class HashTable {
         long hash = sdbm(key);
         Bucket bucket = buckets[(int) (hash & (size -1 ))];
 
-        TupleKey k = new TupleKey(key);
-        Tuple entry = (Tuple) bucket.list.search(k);
+        TupleKey tupleKey = new TupleKey(key);
+        Tuple entry = (Tuple) bucket.list.search(tupleKey);
         
         bucket.list.remove(entry);
     }
