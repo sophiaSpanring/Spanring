@@ -156,14 +156,6 @@ public class BTree {
             root = toRemove.left != null ? toRemove.left : toRemove.right;
         }
     }
-
-    protected static void exchangeDatasets(Node node1, Node node2) {
-        if (node1 != null && node2 != null) {
-            Object data = node2.data;
-            node2.data = node1.data;
-            node1.data = data;
-        }
-    }
     
     protected static int height(Node node) { // Calculate the height of the tree 
         int height = 0;
@@ -193,10 +185,10 @@ public class BTree {
         return depth;
     }
     
-    private class BTreeIterator implements IFIterator { // Iterator, based on breadth-first
-        private Queue queue = new Queue();              // A helper-queue
+    protected class BTreeIterator implements IFIterator { // Iterator, based on breadth-first
+        protected Queue queue = new Queue();              // A helper-queue
         
-        private BTreeIterator(Node startNode) { // New iterator, starting at startNode
+        protected BTreeIterator(Node startNode) { // New iterator, starting at startNode
             if (startNode != null) {
                 queue.enqueue(startNode);      // Enqueue the startNode
             }

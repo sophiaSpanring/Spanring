@@ -132,7 +132,10 @@ public class AVLTree extends SearchTree {         // An AVLTree is a SearchTree
     
     protected Node remove(Node toRemove) { // The overwritten remove-method reports the
         if (toRemove != null) {               // contraction of a sub-tree
-            toRemove = replaceRoot(toRemove); // up to the parents
+            Node replacementNode = searchForReplacement(toRemove); // Exchanging its data set with an extreme
+            Object tmp = toRemove.data;
+            toRemove.data = replacementNode.data;
+            replacementNode.data = tmp;
             shrunkBy((AVLNode) toRemove);
             removeLeaf(toRemove);
         }

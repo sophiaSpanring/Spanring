@@ -73,7 +73,7 @@ public class SearchTree extends BTree {
         return node;
     }
     
-    protected static Node replaceRoot(Node toRemove) { // Replace a (sub)-root data set
+    protected static Node searchForReplacement(Node toRemove) { // Replace a (sub)-root data set
         Node replacementNode = null;
         
         if (toRemove != null) {
@@ -81,23 +81,20 @@ public class SearchTree extends BTree {
             if (replacementNode == null) {                      // set with an maximal one
                 replacementNode = searchLargest(toRemove.left); // of the left or right
             }                                                   // sub-tree. Return the ref
-            exchangeDatasets(toRemove, replacementNode);        // to the maximal node.
         }
         return (replacementNode != null) ? replacementNode : toRemove;
-    }
-
-    protected Node remove(Node toRemove) { // Remove a node
-        if (toRemove != null) {               // Does the node exist?
-            toRemove = replaceRoot(toRemove); // Exchanging its data set with an extreme
-            removeLeaf(toRemove);		      // one of the right or left sub-tree         
-        }									  // Then remove this node for real
-        return toRemove;                      // Return actually removed node
     }
     
     public boolean remove(Object data) {           // Remove a data set
         ReferenceKey key = new ReferenceKey(data); // Create a ReferenceKey
         Node toRemove = binarySearch(root, key);   // Search for the controlling node
-        toRemove = remove(toRemove);               // Remove the controlling node
+        if (toRemove != null) {
+            Node replacementNode = searchForReplacement(toRemove); // Exchanging its data set with an extreme
+            Object tmp = toRemove.data;
+            toRemove.data = replacementNode.data;
+            replacementNode.data = tmp;
+            removeLeaf(replacementNode);             // one of the right or left sub-tree
+        }
         
         return toRemove != null;
     }
