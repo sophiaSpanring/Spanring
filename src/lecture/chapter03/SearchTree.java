@@ -127,7 +127,6 @@ public class SearchTree extends BTree {
         return newCurrentRoot;                           // Deliver the new current root
     }
     
-    
     protected Node rotateRight(Node oldCurrentRoot) { // The rotation to the right
         Node newCurrentRoot = oldCurrentRoot.left;        // Determine the new current root
         
