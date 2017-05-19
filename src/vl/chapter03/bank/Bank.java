@@ -1,5 +1,6 @@
 package vl.chapter03.bank;
-import kapitel_3.bank.accounts.Account;
+
+import vl.chapter03.bank.accounts.Account;
 
 public class Bank {
     Account[] accounts = new Account[1000];

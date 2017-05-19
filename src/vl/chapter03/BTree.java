@@ -1,6 +1,6 @@
 package vl.chapter03;
 
-import uebung_3.ue.Queue;
+import lib.Queue;
 
 public class BTree {
     protected Node root = null;	// The root of the tree

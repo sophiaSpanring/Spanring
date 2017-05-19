@@ -2,7 +2,8 @@ package vl.chapter05.tests;
 
 import java.util.Random;
 
-import kapitel_5.vl.Sorter;
+import vl.chapter05.Sorter;
+
 
 public class TestSorter {
 

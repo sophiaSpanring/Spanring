@@ -1,6 +1,6 @@
 package vl.chapter03.tests;
 
-import kapitel_3.work.generics.IKey;
+import vl.chapter03.generics.IKey;
 
 public class IntegerKeyGeneric implements IKey<Integer> {
     Integer data;
