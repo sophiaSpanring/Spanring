@@ -71,7 +71,7 @@ public class MyBTree extends BTree {
 
     // Aufgabe 4:
     
-    private Node getLastNode() {
+    protected Node getLastNode() {
         Queue q = new Queue();
         q.enqueue(root);
 
@@ -107,4 +107,24 @@ public class MyBTree extends BTree {
         Node n = depthFirstSearch(root, obj -> obj.equals(data));
         remove(n);
     }
+
+
+    // folgender Code relevant für eine andere Aufgabe:
+    @Override
+    public void breadthFirst(lecture.chapter03.IWorker worker) {
+        Queue queue = new Queue();
+
+        if (root != null) {
+            queue.enqueue(root);
+        }
+
+        while (!queue.empty()) {
+            Node current = (Node) queue.dequeue();
+            worker.work(current.data);
+
+            if (current.left != null) queue.enqueue(current.left);
+            if (current.right != null) queue.enqueue(current.right);
+        }
+    }
+
 }
